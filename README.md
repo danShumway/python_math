@@ -12,7 +12,6 @@ Guides to code submission
   - explain what changes you made and why they were made.
 - Don't break anything when you commit.
   - The game should still run when you commit, double check to make sure.
-  - 
 
 Other good things to do
 =============
