@@ -1,0 +1,8 @@
+[Activity]
+name = %(name)s
+activity_version = %(version)s
+host_version = 1
+service_name = %(service_name)s
+bundle_id = %(service_name)s
+icon = activity
+exec = sugar-activity activity.Activity
