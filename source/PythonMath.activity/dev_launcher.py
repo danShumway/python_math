@@ -13,8 +13,7 @@ from optparse import OptionParser
 import spyral
 try:
     import json
-except ImportError:
-    import simplejson as json
+except ImportError:    import simplejson as json
 
 def format_columns(message, data):
     first_width = max([len(x[0]) for x in data])

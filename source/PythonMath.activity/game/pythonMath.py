@@ -1,6 +1,8 @@
 import spyral
 import random
 import math
+import level
+import menu
 
 WIDTH = 1200
 HEIGHT = 900
@@ -19,13 +21,40 @@ class PythonMathGame(spyral.Scene):
 
         self.MainMenuLogo.anchor = "center"
 
-        self.MainMenuLogo.pos.x = WIDTH/2
-        self.MainMenuLogo.pos.y = HEIGHT/2
+        self.MainMenuLogo.x = WIDTH/2
+        self.MainMenuLogo.y = HEIGHT/2
+        self.i = 0
+        self.colorThing = (0, 0, 0)
+
+        self.theLevel = level.Level()
 
         spyral.event.register("system.quit", spyral.director.pop)
         spyral.event.register("director.update", self.update)
         spyral.event.register("input.keyboard.down.q", spyral.director.pop)
+
+
+
+        #some real stuff.  Still just hacking and testing, so not really really real.
+        self.mainMenu = menu.Menu();
+        self.mainMenu.addMenuItem("hello", self.moveSprite)
+        self.currentlySelected = 0
+        spyral.event.register("input.keyboard.down.a", self.mainMenu.selectCurrent)
+        
         
     def update(self, delta):
-        pass
+
+        #testing if update loop works.
+        self.background = spyral.Image(size=SIZE).fill(self.colorThing)
+        self.i += 1
+        self.colorThing = (self.i, self.i, self.i)
+        if(self.i == 250) :
+            self.i = 0
+
+        #This works as well
+        #self.MainMenuLogo.x = self.MainMenuLogo.x + 1
+
+    def moveSprite(self):
+        self.MainMenuLogo.x += 2
+ 
+        
     
