@@ -1,12 +1,13 @@
 import spyral
 
-class GameInput():
+class GameInput(object):
 
     def __init__(self):
         self.oldState = 0
         self.newState = 0
         self.currentKeys = []
         
+    def RegisterEvents(self):
         spyral.event.register("input.keyboard.up.*", self.SetCurrentKeyNone)
 
         spyral.event.register("input.keyboard.down.w", self.SetCurrentKeyW)
@@ -18,7 +19,7 @@ class GameInput():
         spyral.event.register("input.keyboard.down.right", self.SetCurrentKeyRight)
         spyral.event.register("input.keyboard.down.up", self.SetCurrentKeyUp)
         spyral.event.register("input.keyboard.down.dowb", self.SetCurrentKeyDown)
-        
+       
     ##################################################################################
     #                               Set key functions                                #
     ##################################################################################
@@ -63,5 +64,4 @@ class GameInput():
             return True
         return False
 
-        
-        
+InputClass = GameInput()

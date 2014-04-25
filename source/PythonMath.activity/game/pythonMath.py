@@ -4,6 +4,7 @@ import math
 import level
 import menu
 import gameInput
+from gameInput import InputClass
 
 WIDTH = 1200
 HEIGHT = 900
@@ -16,7 +17,7 @@ class PythonMathGame(spyral.Scene):
         spyral.Scene.__init__(self, SIZE)
         self.background = spyral.Image(size=SIZE).fill(BG_COLOR)
 
-        self.GameInput = gameInput.GameInput()
+        InputClass.RegisterEvents()
 
         self.MainMenuLogo = spyral.Sprite(self)
         logo_image = spyral.Image("game/logo.png")
@@ -46,7 +47,7 @@ class PythonMathGame(spyral.Scene):
         
     def update(self, delta):
 
-        self.GameInput.Update(delta)
+        InputClass.Update(delta)
 
         #testing if update loop works.
         self.background = spyral.Image(size=SIZE).fill(self.colorThing)
@@ -58,12 +59,16 @@ class PythonMathGame(spyral.Scene):
         #This works as well
         #self.MainMenuLogo.x = self.MainMenuLogo.x + 1
 
+
+        #To use the InputClass in other modules, type "import gameInput" and
+        # "from gameInput import InputClass". You can then type InputClass.WHATEVER
+
         #This registers true only when the specified key was initially pressed
         #this is perfect for making sure a key does not "pulse"
-        if self.GameInput.IsKeyDownOnce("w"):
+        if InputClass.IsKeyDownOnce("w"):
             self.MainMenuLogo.y -= 2
         #This registers true whenever the key is pressed down
-        if self.GameInput.IsKeyDown("s"):
+        if InputClass.IsKeyDown("s"):
             self.MainMenuLogo.y += 2    
 
     def moveSprite(self):
