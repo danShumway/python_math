@@ -59,7 +59,8 @@ class PythonMathGame(spyral.Scene):
         #This works as well
         #self.MainMenuLogo.x = self.MainMenuLogo.x + 1
 
-
+        #Info about my Input Class
+        """
         #To use the InputClass in other modules, type "import gameInput" and
         # "from gameInput import InputClass". You can then type InputClass.WHATEVER
 
@@ -71,6 +72,10 @@ class PythonMathGame(spyral.Scene):
         if InputClass.IsKeyDown("s"):
             self.MainMenuLogo.y += 2
 
+        if InputClass.mouseData.IsButtonDown("left"):
+            self.MainMenuLogo.x += InputClass.mouseData.changeX
+            self.MainMenuLogo.y += InputClass.mouseData.changeY
+        """
 
     def moveSprite(self):
         self.MainMenuLogo.x += 2

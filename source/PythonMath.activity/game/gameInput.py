@@ -1,3 +1,27 @@
+##################################################################################################################
+#
+#  Game Input class - Contains the class itself under the InputClass variable.
+#  To use it in a script type "import gameInput", and then "from gameInput import
+#  InputClass"
+#
+#
+#  IsKeyDown and IsKeyDownOnce methods: returns true if the specified key
+#                                       is currently pressed down (The once
+#                                       method will prevent keyboard pulsing)
+#
+#  Example:    InputClass.IsKeyDown('w') - returns true if the w key is pressed down
+#
+#
+#
+#  IsButtonDown and IsButtonDownOnce methods: returns true if the specified mouse button
+#                                             is currently pressed down (The once
+#                                             method will prevent button pulsing)
+#
+#
+#  Example:    InputClass.IsButtonDown('left') - returns true if the left mouse button is pressed down
+#
+##################################################################################################################
+
 import spyral
 
 keyDict = { 119 : 'w',
@@ -52,7 +76,8 @@ class MouseData(object):
 
         self.oldState = 0
         self.newState = 0
-        
+
+    #Prints info about the mouse
     def Print(self):
         print('\nX: ' + str(self.x) + '\nY: ' + str(self.y) + '\nChangeX: ' + str(self.changeX) + '\nChangeY: ' + str(self.changeY))
         print('Current mouse buttons pressed: ')
@@ -66,11 +91,13 @@ class MouseData(object):
         else:
             self.newState = 1         
 
+    #Returns true if the specified mouse button is pressed down
     def IsButtonDown(self, button):
         if button in self.buttonStatus:
             return True
         return False
-
+    
+    #Returns true if the specified mouse button is pressed down. Will prevent pulsing of the event
     def IsButtonDownOnce(self, button):
         if self.oldState != self.newState and button in self.buttonStatus:
             return True
@@ -136,14 +163,24 @@ class GameInput(object):
         else:
             self.newState = 1
 
+    #Returns true if the specified key is pressed down
     def IsKeyDown(self, key):
         if key in self.currentKeys:
             return True
         return False
 
+    #Returns true if the specified key is pressed down. Will prevent pulsing of the event
     def IsKeyDownOnce(self, key):
         if self.oldState != self.newState and key in self.currentKeys:
             return True
         return False
 
+# The actual input class variable used throughout the game. This is important. Be sure to use this specific variable and do not make a
+# new class of this type. To use this specific variable in any python file, type:
+#
+# import gameInput
+# from gameInput import InputClass
+#
+# then use InputClass as a variable. For example: InputClass.IsKeyDown('w')
+#
 InputClass = GameInput()
