@@ -43,16 +43,38 @@ keyDict = { 119 : 'w',
 
 class MouseData(object):
     def __init__(self):
-        self.x = 0;
-        self.y = 0;
-        self.changeX = 0;
-        self.changeY = 0;
+        self.x = 0
+        self.y = 0
+        self.changeX = 0
+        self.changeY = 0
         self.buttonStatus = []
+        self.rect = spyral.Rect(0,0,2,2)
+
+        self.oldState = 0
+        self.newState = 0
         
     def Print(self):
         print('\nX: ' + str(self.x) + '\nY: ' + str(self.y) + '\nChangeX: ' + str(self.changeX) + '\nChangeY: ' + str(self.changeY))
         print('Current mouse buttons pressed: ')
         print(self.buttonStatus)
+
+    def Update(self, deltaTime):
+        self.oldState = self.newState
+        self.rect = spyral.Rect(self.x,self.y,2,2)
+        if len(self.buttonStatus) == 0:
+            self.newState = 0
+        else:
+            self.newState = 1         
+
+    def IsButtonDown(self, button):
+        if button in self.buttonStatus:
+            return True
+        return False
+
+    def IsButtonDownOnce(self, button):
+        if self.oldState != self.newState and button in self.buttonStatus:
+            return True
+        return False
 
         
 class GameInput(object):
@@ -106,6 +128,7 @@ class GameInput(object):
     
        
     def Update(self, deltaTime):
+        self.mouseData.Update(deltaTime)
         self.oldState = self.newState
 
         if len(self.currentKeys) == 0:
