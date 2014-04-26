@@ -1,0 +1,71 @@
+﻿Python Math Design Document
+Mechanics Design
+
+
+________________
+
+
+
+
+Index
+
+
+1.0 - General Mechanics
+
+
+2.0 - Movement
+        2.1 - Collision
+
+
+3.0 - Gates
+        3.1 - Addition Gates
+        3.2 - Subtraction Gates
+        3.3 - Combined Gates
+
+
+4.0 - Walls
+________________
+
+
+
+
+1.0 - General Mechanics
+
+
+        Python Math - Adder’s Garden Adventure is a tile-based Snake-like game. As such, the avatar travels from tile to tile with the tail following behind, taking up that tile. The avatar will pass through gates which will make the avatar longer or smaller as dependant on the gate. Once the avatar is of the appropriate size, they will be able to exit the puzzle.
+
+
+2.0 - Movement
+
+
+        The avatar that the player controls will move from one tile to another and can only go up, down, left, or right by one tile when doing so. As the game takes after Snake, the avatar will be unable to cross over a tile which has a tail segment in it, though this will not automatically end the attempt for the puzzle. Movement will not be automatic as the game is not meant to test reflexes, but more directly test problem solving ability.
+
+
+3.0 - Gates
+
+
+        The avatar will be required to pass through various gates to change their length in order to leave through the ending door.
+
+
+3.1 - Addition gates
+
+
+        Addition gates will increase the length of the avatar , corresponding to the number that is displayed on the gate. For example a gate marked as two will increase the avatar’s length by two, whereas a gate marked with four would increase the length by four. There can be multiple addition gates in a particular puzzle as the avatar could be made bigger than what is required for the ending door.
+
+
+3.2 - Subtraction gates
+
+
+        Subtraction gates will decrease the length of the avatar, corresponding to the number displayed on the gate, much like the Addition gates do. There can be multiple Subtraction gates in a level as it could be required to go through different valued gates to reach a specific ending number.
+
+
+3.3 - Combined gates
+
+
+        Combined gates would be gates that would either increase or decrease the length of the avatar depending on which direction they are entered from. The main purpose of these gates would be used in more advanced problems that would have paths blocked off and would require taking a specific route through the gates.
+
+
+4.0 - Walls
+
+
+        Walls would be used to block the avatar’s path for the more complex puzzles, such as creating specific routes that the avatar needs to progress through with certain routes resulting in the avatar’s length being incorrect.
