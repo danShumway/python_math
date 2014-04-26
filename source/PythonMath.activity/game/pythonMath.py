@@ -69,7 +69,8 @@ class PythonMathGame(spyral.Scene):
             self.MainMenuLogo.y -= 2
         #This registers true whenever the key is pressed down
         if InputClass.IsKeyDown("s"):
-            self.MainMenuLogo.y += 2    
+            self.MainMenuLogo.y += 2
+
 
     def moveSprite(self):
         self.MainMenuLogo.x += 2
