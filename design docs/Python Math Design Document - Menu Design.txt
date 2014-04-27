@@ -1,0 +1,63 @@
+﻿Python Math Design Document
+Menu Design
+
+
+________________
+
+
+
+
+Index
+
+
+1.0 - General Design
+
+
+2.0 - Aesthetic
+
+
+3.0 - Functionality
+        3.1 - Instructions Screen
+        3.2 - Puzzle Screen
+        3.3 - Pause Screen
+
+
+________________
+
+
+
+
+1.0 - General Design
+
+
+        The menus and game screens need to be designed with usability in mind due to the target audience for the game. As such, a minimalistic approach is required, both for allowing for anyone to navigate through the game and to outright explanation to a minimum.
+
+
+2.0 - Aesthetic
+
+
+Most screens in the game are going to be fairly bare in terms of direct functionality, with a small number of buttons that the player can select from to take them to different screens. The bottom half of the screen should be dedicated to any sort of text or explanations, with the top offering some sort of visualization about what is being discussed. As an example, the Puzzle Selection item should have a brief text blurb giving a general description of the what the player will be able to do on said screen and a screenshot of said screen. These two in conjunction should give enough information to the player so that they may be able to decide if the screen being displayed is the screen they wish to go to.
+
+
+3.0 - Functionality
+
+
+        The various screen will have differing functionality dependant on what is required of them. Every menu screen will have a way to exit to the main menu except for the main menu, which will be able to close the program.
+
+
+3.1 - Instructions Screen
+
+
+        The instructions screen will come up whenever a new concept is being introduced to the player, such as introducing walls to block the avatar’s path or using a gate to change the avatar’s length. This screen is able to have focus taken away from it and will have reference to any information that it has already been displayed to it before. This screen will also be used to teach the initial controls for the player.
+
+
+3.2 - Puzzle Selection Screen
+
+
+        The Puzzle Selection screen will available after the player has beaten any puzzle in the game so they may visit the puzzles again if they would like to refresh concepts they have already learned or if someone new is playing the game. As a menu screen, this will be able to access and be accessed by the Main Menu and will also be accessible from the main game screen so the player can change puzzles in the middle of playing.
+
+
+3.3 - Pause Screen
+
+
+        The Pause screen is a menu screen that will be only accessible from the main game screen as it does not have a use outside of gameplay. As a menu screen, it will be able to take the player back to the main menu and restart a puzzle should the player decide that they have put themselves in an unwinnable state.

@@ -1,0 +1,68 @@
+﻿Python Math Design Document
+Puzzle Design
+
+
+________________
+
+
+
+
+Index
+
+
+1.0 - General Concepts
+        1.1 - Base Implementation
+        1.2 - Requirements
+        1.3 - Standards
+
+
+2.0 - Addition
+        2.1 - 
+        2.2 -
+        2.3 -
+
+
+3.0 - Subtraction
+        3.1 -
+        3.2 -
+        3.3 -
+
+
+4.0 - Combined Puzzles
+        4.1 -
+        4.2 -
+        4.3 -
+________________
+
+
+
+
+1.0 - General Concepts
+
+
+        Python Math - Adder’s Garden Adventure is a Snake-like puzzle game meant to teach first grade level math concepts, as defined by the New York State math curriculum, to children. 
+
+
+1.1 - Base Implementation
+
+
+        Python Math’s puzzles are based around passing through gates that will make the player’s avatar bigger or smaller as decided by the gate being passed through. Gates must be passed through multiple times in order to make the avatar large enough to match the door to the next puzzle or next section of the puzzle.
+
+
+1.2 - Requirements
+        Python Math will at base follow the New York State math curriculum for first grade students. Puzzles will teach concepts involving addition and subtraction for numbers from one through twenty.
+
+
+1.3 - Standards
+
+
+Puzzles will be required to have a gate that will change the avatar’s size as well as a goal the avatar must match. Puzzles that introduce a concept will have just the two gates and subsequent puzzles will require the avatar to navigate around obstacles such as walls and eventually having multiple gates that require navigating through to reach the appropriate goal.
+
+
+2.0 - Addition
+
+
+3.0 - Subtraction
+
+
+4.0 - Combined Puzzle
