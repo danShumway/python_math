@@ -1,35 +1,38 @@
-class Level():
+import spyral
 
-    #constructor
-    def __init__(self):
+class Tile(spyral.Sprite):
+    def __init__(self, scene, i, j,SIZE):
+        super(Tile,self).__init__(scene)
+
+        self.image = spyral.Image('game/grassTile.png')
+        self.anchor = 'center'
+
+        self.x = i * self.image.width + SIZE[0]/4
+        self.y = j * self.image.height + SIZE[1]/4
+
+        
+class Level(spyral.Scene):
+    def __init__(self,SIZE):
+        spyral.Scene.__init__(self, SIZE)
+        self.background = spyral.Image(size=SIZE).fill((75,255,75))
+        
         #set up variables
         self.levelWidth = 20;
         self.levelHeight = 20;
-        self.level = self.defineBlankWorld(self.levelWidth, self.levelHeight)
-        
+        self.levelData = self.CreateLevel(self.levelWidth, self.levelHeight,SIZE)
 
-#-------------------------------------------------------------------------
-        
+        spyral.event.register("director.update", self.update)
+        spyral.event.register("input.keyboard.down.q", spyral.director.pop)
 
     #makes a blank world and returns it.
     #Todo: load in worlds from external files.
-    def defineBlankWorld(self, width, height):
-        level = [[0]*width for i in range(height)]
-        #makes a new level to return.
-        for x in xrange(0, width):
-            for y in xrange(0, height):
-                #make walls
-                if(x == 0 or x == width - 1 or y == 0 or y == height - 1):
-                    level[x][y] = 1;
-                else:
-                    level[x][y] = 0;
+    def CreateLevel(self, width, height,SIZE):
+        level = []
+        for i in range(width):
+            for j in range(height):
+                tile = Tile(self,i,j,SIZE)
+                level.append(tile)
         return level
 
-#-------------------------------------------------------------------------
-
-    def draw(self, x, y, width, height):
+    def update(self, delta):
         pass
-    
-    def otherStuff(self):
-        pass
-        

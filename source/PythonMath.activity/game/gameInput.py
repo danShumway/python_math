@@ -24,7 +24,8 @@
 
 import spyral
 
-keyDict = { 119 : 'w',
+keyDict = { 113: 'q',
+            119 : 'w',
             115 : 's',
             97 : 'a',
             100 : 'd',
@@ -121,6 +122,11 @@ class GameInput(object):
         
         #Mouse events
         spyral.event.register("input.mouse.motion", self.HandleMouseMotion)
+
+    #Prints info about the keyboard
+    def Print(self):
+        print('Current keys pressed: ')
+        print(self.currentKeys)
        
     ##################################################################################
     #                               Set key functions                                #
@@ -130,6 +136,7 @@ class GameInput(object):
     def SetCurrentKeyNone(self):
         self.currentKeys = []
     def SetCurrentKey(self, key, mod):
+        print(key)
         if key in keyDict:
             self.currentKeys.append(keyDict[key])
 

@@ -3,8 +3,6 @@ import random
 import math
 import level
 import menu
-import gameInput
-from gameInput import InputClass
 
 WIDTH = 1200
 HEIGHT = 900
@@ -16,8 +14,8 @@ class PythonMathGame(spyral.Scene):
     def __init__(self, *args, **kwargs):
         spyral.Scene.__init__(self, SIZE)
         self.background = spyral.Image(size=SIZE).fill(BG_COLOR)
+
         '''
-        InputClass.RegisterEvents()
         self.MainMenuLogo = spyral.Sprite(self)
         logo_image = spyral.Image("game/logo.png")
         self.MainMenuLogo.image = logo_image
@@ -30,11 +28,12 @@ class PythonMathGame(spyral.Scene):
         self.i = 0
         self.colorThing = (0, 0, 0)
 
-        self.theLevel = level.Level()
+        self.theLevel = level.Level(SIZE)
 
         spyral.event.register("system.quit", spyral.director.pop)
         spyral.event.register("director.update", self.update)
         spyral.event.register("input.keyboard.down.q", spyral.director.quit)
+        spyral.event.register("input.keyboard.down.e", self.enterLevel)
 
 
 
@@ -50,9 +49,6 @@ class PythonMathGame(spyral.Scene):
         
         
     def update(self, delta):
-
-        InputClass.Update(delta)
-
         #testing if update loop works.
         self.background = spyral.Image(size=SIZE).fill(self.colorThing)
         self.i += 1
@@ -63,27 +59,11 @@ class PythonMathGame(spyral.Scene):
         #This works as well
         #self.MainMenuLogo.x = self.MainMenuLogo.x + 1
 
-        #Info about my Input Class
-        """
-        #To use the InputClass in other modules, type "import gameInput" and
-        # "from gameInput import InputClass". You can then type InputClass.WHATEVER
-
-        #This registers true only when the specified key was initially pressed
-        #this is perfect for making sure a key does not "pulse"
-        if InputClass.IsKeyDownOnce("w"):
-            self.MainMenuLogo.y -= 2
-        #This registers true whenever the key is pressed down
-        if InputClass.IsKeyDown("s"):
-            self.MainMenuLogo.y += 2
-
-        if InputClass.mouseData.IsButtonDown("left"):
-            self.MainMenuLogo.x += InputClass.mouseData.changeX
-            self.MainMenuLogo.y += InputClass.mouseData.changeY
-        """
-
     def moveSprite(self):
         #self.MainMenuLogo.x += 2
         pass
- 
+
+    def enterLevel(self):
+        spyral.director.push(self.theLevel)
         
     
