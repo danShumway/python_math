@@ -10,8 +10,8 @@ class Tile(spyral.Sprite):
              self.image = spyral.Image(size=(32,32)).fill((0,0,0))
         self.anchor = 'center'
 
-        self.x = i * self.image.width + SIZE[0]/4
-        self.y = j * self.image.height + SIZE[1]/4
+        self.x = i * self.image.width + SIZE[0]/2 - (scene.levelWidth/2 * self.image.width)
+        self.y = j * self.image.height + SIZE[1]/2 - (scene.levelWidth/2 * self.image.height)
 
 class Level(spyral.Scene):
     def __init__(self,SIZE):
