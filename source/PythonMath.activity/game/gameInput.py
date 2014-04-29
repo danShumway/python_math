@@ -136,7 +136,6 @@ class GameInput(object):
     def SetCurrentKeyNone(self):
         self.currentKeys = []
     def SetCurrentKey(self, key, mod):
-        print(key)
         if key in keyDict:
             self.currentKeys.append(keyDict[key])
 

@@ -1,4 +1,5 @@
 import spyral
+import snake
 import gameInput
 from gameInput import InputClass
 
@@ -6,14 +7,25 @@ class Tile(spyral.Sprite):
     def __init__(self, scene, i, j,SIZE,key):
         super(Tile,self).__init__(scene)
 
-        if key == '#':
+        self.key = key
+        self.anchor = 'center'
+        self.type = 'empty'
+
+        self.InitValues()
+
+        self.row = i
+        self.col = j
+
+        self.x = (i*0.97) * self.image.width + SIZE[0]/2 - (scene.levelWidth/2 * self.image.width)
+        self.y = (j*0.97) * self.image.height + SIZE[1]/2 - (scene.levelWidth/2 * self.image.height)    
+
+    def InitValues(self):
+        if self.key == '#':
              self.image = spyral.Image('game/grassTile.png')
+             self.type = 'empty'
         else:
              self.image = spyral.Image(size=(32,32)).fill((0,0,0))
-        self.anchor = 'center'
-
-        self.x = (i*0.95) * self.image.width + SIZE[0]/2 - (scene.levelWidth/2 * self.image.width)
-        self.y = (j*0.95) * self.image.height + SIZE[1]/2 - (scene.levelWidth/2 * self.image.height)
+             self.type = 'obstacle'
 
 
 class Level(spyral.Scene):
@@ -30,6 +42,10 @@ class Level(spyral.Scene):
         spyral.event.register("input.keyboard.down.q", spyral.director.pop)
 
         InputClass.RegisterEvents()
+
+        #create snake player object
+        self.player = snake.Snake(self, (5,12) )
+
 
     #makes a blank world and returns it.
     #Todo: load in worlds from external files.
@@ -74,7 +90,10 @@ class Level(spyral.Scene):
 
     def update(self, delta):
         InputClass.Update(delta)
-        self.PanCamera()
+
+        #Going to disable camera panning until we can determine if it will not impact the OLPC's framerate
+        #self.PanCamera()
+
 
     def GetTile(self, row, column):
         return self.levelData[((row-1) * self.levelWidth) + (column-1)]
@@ -82,14 +101,14 @@ class Level(spyral.Scene):
     def PanCamera(self):
         xOffset = 0
         yOffset = 0
-        if InputClass.mouseData.x <= 15:
-            xOffset = 3
-        elif InputClass.mouseData.x >= self.sceneSize[0] - 15:
-            xOffset = -3
-        if InputClass.mouseData.y <= 15:
-            yOffset = 3
-        elif InputClass.mouseData.y >= self.sceneSize[1] - 15:
-            yOffset = -3
+        if InputClass.mouseData.x <= 75:
+            xOffset = 5
+        elif InputClass.mouseData.x >= self.sceneSize[0] - 75:
+            xOffset = -5
+        if InputClass.mouseData.y <= 75:
+            yOffset = 5
+        elif InputClass.mouseData.y >= self.sceneSize[1] - 75:
+            yOffset = -5
         if yOffset != 0 or xOffset != 0:
             for i in self.levelData:
                 i.x += xOffset
