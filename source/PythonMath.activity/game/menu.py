@@ -30,10 +30,12 @@ class Menu():
         option.image = spyral.Image("game/logo.png")
         #recalculate the position of everything on the screen.
         option.anchor = "center"
-        #option.width = self.width*.5
-        #option.height = self.height*.2
-        option.x = self.height/2 + self.originX
-        option.y = self.width/2 + self.originY
+        #option.width = 100
+        #option.height = 100
+        option.x = self.width/2 # + self.originX
+        option.y = self.height/2 # + self.originY
+        print(self.width/2)
+        print(option.x)
         
 #----------------------------------------------------------------------
 
@@ -41,6 +43,12 @@ class Menu():
     def selectCurrent(self):
         self.optionsDelegates[self.currentlySelected]()
         #highlight the selected option.
+
+    def moveUp(self):
+        self.currentlySelected = (self.currentlySelected - 1) % len(self.options)
+
+    def moveDown(self):
+        self.currentlySelected = (self.currentlySelected + 1) % len(self.options)
     
     
     

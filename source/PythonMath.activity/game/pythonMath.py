@@ -43,9 +43,13 @@ class PythonMathGame(spyral.Scene):
         self.mainMenu.height = HEIGHT
         #self.mainMenu.originX = WIDTH/2
         #self.mainMenu.originY = HEIGHT/2
-        self.mainMenu.addMenuItem("hello", self.moveSprite)
+        self.mainMenu.addMenuItem("hello", self.enterLevel)
         self.currentlySelected = 0
-        spyral.event.register("input.keyboard.down.a", self.mainMenu.selectCurrent)
+
+        #set up menu controls.
+        spyral.event.register("input.keyboard.down.up", self.mainMenu.moveUp)
+        spyral.event.register("input.keyboard.down.down", self.mainMenu.moveDown)
+        spyral.event.register("input.keyboard.down.space", self.mainMenu.selectCurrent)
         
         
     def update(self, delta):
