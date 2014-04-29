@@ -27,7 +27,7 @@ class Menu():
         #there is no draw loop.
         option = spyral.Sprite(self.parentScene)
         self.sprites.append(option)
-        option.image = spyral.Image("game/logo.png")
+        option.image = spyral.Image("game/images/logo.png")
         #recalculate the position of everything on the screen.
         option.anchor = "center"
         #option.width = self.width*.5

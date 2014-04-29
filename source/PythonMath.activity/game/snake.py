@@ -11,19 +11,19 @@ class Snake(object):
         self.snakeTiles = []
         
         head = self.level.GetTile(headPosition[0],headPosition[1])
-        head.image = spyral.Image('game/snakeHead.png')
+        head.image = spyral.Image('game/images/snakeHead.png')
         head.type = 'obstacle'
         self.snakeTiles.append(head)
 
         bodyLength = random.randint(1,6)
         for i in range(bodyLength):
             body = self.level.GetTile(self.x+i+1,self.y)
-            body.image = spyral.Image('game/snakeBody.png')
+            body.image = spyral.Image('game/images/snakeBody.png')
             body.type = 'obstacle'
             self.snakeTiles.append(body)
 
         tail = self.level.GetTile(self.x+bodyLength+1,self.y)
-        tail.image = spyral.Image('game/snakeTail.png')
+        tail.image = spyral.Image('game/images/snakeTail.png')
         tail.type = 'obstacle'
 
         self.snakeTiles.append(tail)
@@ -34,28 +34,24 @@ class Snake(object):
         spyral.event.register("input.keyboard.down.down", self.moveDown) 
 
     def moveLeft(self):
-        if self.y - 1 > 0:
-            if self.level.GetTile(self.x,self.y - 1).type != 'obstacle':
-                self.y -= 1
-                self.changeTilesFromMovement();
+        if self.y - 1 > 0 and self.level.GetTile(self.x,self.y - 1).type != 'obstacle':
+            self.y -= 1
+            self.changeTilesFromMovement();
                
     def moveRight(self):
-        if self.y + 1 <= self.level.levelWidth:
-            if self.level.GetTile(self.x,self.y + 1).type != 'obstacle':
-                self.y += 1
-                self.changeTilesFromMovement();
+        if self.y + 1 <= self.level.levelWidth and self.level.GetTile(self.x,self.y + 1).type != 'obstacle':
+            self.y += 1
+            self.changeTilesFromMovement();
 
     def moveUp(self):
-        if self.x - 1 > 0:
-            if self.level.GetTile(self.x - 1,self.y).type != 'obstacle':
-                self.x -= 1
-                self.changeTilesFromMovement();
+        if self.x - 1 > 0 and self.level.GetTile(self.x - 1,self.y).type != 'obstacle':
+            self.x -= 1
+            self.changeTilesFromMovement();
 
     def moveDown(self):
-        if self.x + 1 < self.level.levelHeight:
-            if self.level.GetTile(self.x + 1,self.y).type != 'obstacle':
-                self.x += 1
-                self.changeTilesFromMovement();
+        if self.x + 1 < self.level.levelHeight and self.level.GetTile(self.x + 1,self.y).type != 'obstacle':
+            self.x += 1
+            self.changeTilesFromMovement();
     
     def changeTilesFromMovement(self):
         lipos = []
@@ -65,7 +61,7 @@ class Snake(object):
             lipos.append( (i.row, i.col ) )
 
         self.snakeTiles[0] = self.level.GetTile(self.x,self.y)
-        self.snakeTiles[0].image = spyral.Image('game/snakeHead.png')
+        self.snakeTiles[0].image = spyral.Image('game/images/snakeHead.png')
         self.snakeTiles[0].type = 'obstacle'
 
         for i in range(len(self.snakeTiles)):
