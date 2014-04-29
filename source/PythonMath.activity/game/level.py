@@ -14,8 +14,8 @@ class Tile(spyral.Sprite):
         self.row = i
         self.col = j
 
-        self.x = (i*0.97) * self.image.width + SIZE[0]/2 - (scene.levelWidth/2 * self.image.width)
-        self.y = (j*0.97) * self.image.height + SIZE[1]/2 - (scene.levelWidth/2 * self.image.height)    
+        self.x = (self.row*0.97) * self.image.width
+        self.y = (self.col*0.97) * self.image.height
 
     def InitValues(self):
         if self.key == '#':
@@ -34,7 +34,7 @@ class Level(spyral.Scene):
         self.sceneSize = SIZE
         self.levelWidth = 20;
         self.levelHeight = 20;
-        self.levelData = self.CreateLevel(SIZE,'game/levels/default.txt')
+        self.levelData = self.CreateLevel(SIZE,'game/levels/basic.txt')
 
         spyral.event.register("input.keyboard.down.*", self.handleKeyboard)
 
@@ -55,32 +55,29 @@ class Level(spyral.Scene):
         #create from file
         else:
             try:
-                fileObject = open(filename,'r')
-                fileData = fileObject.read()
-
-                count = 0
-                setWidth = True
-                for i in fileData:
-                    if i == '\n':
-                        if setWidth == True:
-                            self.levelWidth = count
-                            setWidth = False
-                    count+=1
-                self.levelHeight = count / self.levelWidth   
-                fileObject.close()
+                total = 0
+                getWidth = True
 
                 currentRow = 0
                 currentCol = 0
-                for i in range(self.levelWidth * self.levelHeight):
-                    if fileData[i] != '\n':
-                        tile = Tile(self,currentCol,currentRow,SIZE,fileData[i])
+                fileObject = open(filename)
+                for line in fileObject:
+                    line = line.rstrip('\n')
+                    if getWidth == True:
+                        self.levelWidth = len(line)
+                        getWidth = False  
+                    for char in line:
+                        tile = Tile(self,currentCol,currentRow,SIZE,char)
                         level.append(tile)
                         currentCol += 1
                         if currentCol == self.levelWidth:
                             currentCol = 0
                             currentRow += 1
+                    total += 1
+                self.levelHeight = total
+                fileObject.close()
             except:
-                print('file not found!')
+                print('\nerror loading file!\n')
         return level
 
     def GetTile(self, row, column):
