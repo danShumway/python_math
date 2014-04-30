@@ -4,7 +4,7 @@ import random
 
 class Menu():
 
-    def __init__(self, scene):
+    def __init__(self, scene, width, height):
         #set up variables
         #python literally does not have private or hidden variables, as far as I know.
         self.parentScene = scene #A reference to the drawy part.
@@ -12,11 +12,12 @@ class Menu():
         self.optionsDelegates = [] #what functions it points to.
         self.currentlySelected = 0 #what menu item we're on.
         self.sprites = [] #Our sprites.
-        self.width = 0
-        self.height = 0 #width and height of the entire menu
-        self.originX = 0
-        self.originY = 0
+        self.width = width
+        self.height = height #width and height of the entire menu
 
+        spyral.event.register("input.keyboard.down.up", self.moveUp)
+        spyral.event.register("input.keyboard.down.down", self.moveDown)
+        
 #----------------------------------------------------------------------
 
     #Adds a new menu option.  We can handle this through a main game file or something.
@@ -27,15 +28,24 @@ class Menu():
         #there is no draw loop.
         option = spyral.Sprite(self.parentScene)
         self.sprites.append(option)
-        option.image = spyral.Image("game/images/logo.png")
+
+        #quick check if you added only 1 item.
+        if(len(self.options) != 1):
+            option.image = spyral.Image("game/images/logo.png")
+        else:
+            option.image = spyral.Image("game/images/selectedMenuItem.png")
+            
         #recalculate the position of everything on the screen.
         option.anchor = "center"
-        #option.width = 100
-        #option.height = 100
-        option.x = self.width/2 # + self.originX
-        option.y = self.height/2 # + self.originY
-        print(self.width/2)
-        print(option.x)
+        option.x = self.width/2
+
+        #fix positions.
+        print("Length: " + str(self.height/2))
+        curY = self.height/2 - ((len(self.options) - 1 )* self.sprites[0].height/2)
+        for i in range(0, len(self.sprites)):
+            print("CurY: " + str(curY))
+            self.sprites[i].y = curY
+            curY = curY + self.sprites[i].height + 30
         
 #----------------------------------------------------------------------
 
@@ -45,10 +55,14 @@ class Menu():
         #highlight the selected option.
 
     def moveUp(self):
+        self.sprites[self.currentlySelected].image = spyral.Image("game/images/logo.png")
         self.currentlySelected = (self.currentlySelected - 1) % len(self.options)
+        self.sprites[self.currentlySelected].image = spyral.Image("game/images/selectedMenuItem.png")
 
     def moveDown(self):
+        self.sprites[self.currentlySelected].image = spyral.Image("game/images/logo.png")
         self.currentlySelected = (self.currentlySelected + 1) % len(self.options)
+        self.sprites[self.currentlySelected].image = spyral.Image("game/images/selectedMenuItem.png")
     
     
     
