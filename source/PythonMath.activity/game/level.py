@@ -1,6 +1,13 @@
 import spyral
 import snake
 
+tileBasic = spyral.Image('game/images/grassTile.png')
+tileBush = spyral.Image('game/images/bushTile.png')
+tileAdd = spyral.Image('game/images/addTile.png')
+tileSubtract = spyral.Image('game/images/subtractTile.png')
+tileGate = spyral.Image('game/images/gateTile.png')
+tileOther = spyral.Image(size=(32,32)).fill((0,0,0))
+
 class Tile(spyral.Sprite):
     def __init__(self, scene, i, j,SIZE,key):
         super(Tile,self).__init__(scene)
@@ -14,15 +21,30 @@ class Tile(spyral.Sprite):
         self.row = i
         self.col = j
 
-        self.x = (self.row*0.97) * self.image.width
-        self.y = (self.col*0.97) * self.image.height
+        levelWidth = scene.levelWidth * self.image.width
+        levelHeight = scene.levelHeight * self.image.height
+
+        self.x = SIZE[0]/2 + ((self.row*0.96) * self.image.width) - levelWidth/2 + self.image.width
+        self.y = SIZE[1]/2 + ((self.col*0.96) * self.image.height) - levelHeight/2
 
     def InitValues(self):
-        if self.key == '#':
-             self.image = spyral.Image('game/images/grassTile.png')
+        if self.key == '-':
+             self.image = tileBasic
              self.type = 'empty'
+        elif self.key == '#':
+             self.image = tileBush
+             self.type = 'obstacle'
+        elif self.key == 'A':
+             self.image = tileAdd
+             self.type = 'add'
+        elif self.key == 'S':
+             self.image = tileSubtract
+             self.type = 'subtract'
+        elif self.key == 'G':
+             self.image = tileGate
+             self.type = 'gate'
         else:
-             self.image = spyral.Image(size=(32,32)).fill((0,0,0))
+             self.image = tileOther
              self.type = 'obstacle'
 
 
@@ -34,23 +56,22 @@ class Level(spyral.Scene):
         self.sceneSize = SIZE
         self.levelWidth = 20;
         self.levelHeight = 20;
+        
         self.levelData = self.CreateLevel(SIZE,'game/levels/basic.txt')
+
+        #create snake player object
+        self.player = snake.Snake(self, (2,self.levelWidth/2) )
 
         spyral.event.register("input.keyboard.down.*", self.handleKeyboard)
 
-        #create snake player object
-        self.player = snake.Snake(self, (5,12) )
 
-
-    #makes a blank world and returns it.
-    #Todo: load in worlds from external files.
     def CreateLevel(self, SIZE, filename = ''):
         level = []
         #create from default width and height with no filename
         if filename == '':
             for i in range(self.levelWidth):
                 for j in range(self.levelHeight):
-                    tile = Tile(self,i,j,SIZE,'#')
+                    tile = Tile(self,i,j,SIZE,'-')
                     level.append(tile)
         #create from file
         else:
@@ -62,7 +83,7 @@ class Level(spyral.Scene):
                 currentCol = 0
                 fileObject = open(filename)
                 for line in fileObject:
-                    line = line.rstrip('\n')
+                    line = line.rstrip('\n')  
                     if getWidth == True:
                         self.levelWidth = len(line)
                         getWidth = False  
@@ -81,7 +102,10 @@ class Level(spyral.Scene):
         return level
 
     def GetTile(self, row, column):
-        return self.levelData[((row-1) * self.levelWidth) + (column-1)]
+        try:
+            return self.levelData[((row-1) * self.levelWidth) + (column-1)]
+        except:
+            return None
 
     def handleKeyboard(self, key):
         if unichr(key) == 'q':
