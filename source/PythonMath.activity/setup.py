@@ -328,4 +328,5 @@ if __name__ == "__main__":
         from sugar.activity import bundlebuilder
         bundlebuilder.start()
     except ImportError:
+        print 'There was an error trying to start the build within sugar!'
         start()
