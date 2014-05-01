@@ -1,5 +1,6 @@
 import spyral
 import snake
+import pythonMath
 
 tileBasic = spyral.Image('game/images/grassTile.png')
 tileBush = spyral.Image('game/images/bushTile.png')
@@ -49,15 +50,18 @@ class Tile(spyral.Sprite):
 
 
 class Level(spyral.Scene):
-    def __init__(self,SIZE):
+    def __init__(self,menuScene,SIZE,filename):
         spyral.Scene.__init__(self, SIZE)
         self.background = spyral.Image(size=SIZE).fill((25,150,25))
 
+        self.menuScene = menuScene
         self.sceneSize = SIZE
         self.levelWidth = 20;
         self.levelHeight = 20;
+
+        self.currentLevel = 1
         
-        self.levelData = self.CreateLevel(SIZE,'game/levels/basic.txt')
+        self.levelData = self.CreateLevel(SIZE,filename)
 
         #create snake player object
         self.player = snake.Snake(self, (2,self.levelWidth/2) )
@@ -110,3 +114,16 @@ class Level(spyral.Scene):
     def handleKeyboard(self, key):
         if unichr(key) == 'q':
             spyral.director.pop()
+
+    def goToNextLevel(self):
+        newLevel = Level(self.menuScene,self.sceneSize,'game/levels/level' + str(self.currentLevel + 1) + '.txt')
+        newLevel.currentLevel = self.currentLevel + 1
+        for i in self.levelData:
+            i.kill()
+            del i
+        for i in self.player.snakeTiles:
+            i.kill()
+            del i
+        spyral.director.replace(newLevel)
+        self.menuScene.theLevel = newLevel
+        return
