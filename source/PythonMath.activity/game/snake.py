@@ -93,6 +93,8 @@ class Snake(object):
 
         if oldType == 'add':
             self.addTile()
+        elif oldType == 'subtract':
+            self.subtractTile()
 
     def addTile(self):
         secondToLast = self.snakeTiles[len(self.snakeTiles)-2]
@@ -135,4 +137,8 @@ class Snake(object):
             
 
     def subtractTile(self):
-        pass
+        #make sure the snake is never smaller than 3 tiles long
+        if len(self.snakeTiles) >= 4:
+            self.snakeTiles[len(self.snakeTiles)-1].InitValues()
+            self.snakeTiles.pop()
+            self.snakeTiles[len(self.snakeTiles)-1].image = tailImage
