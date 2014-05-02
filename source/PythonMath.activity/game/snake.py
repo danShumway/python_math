@@ -19,20 +19,42 @@ class Snake(object):
         head.type = 'obstacle'
         self.snakeTiles.append(head)
 
-        bodyLength = random.randint(1,5)
-        for i in range(bodyLength):
+        self.bodyLength = random.randint(1,5)
+        for i in range(self.bodyLength):
             body = self.level.GetTile(self.x+i+1,self.y)
             body.image = bodyImage
             body.type = 'obstacle'
             self.snakeTiles.append(body)
 
-        tail = self.level.GetTile(self.x+bodyLength+1,self.y)
+        tail = self.level.GetTile(self.x+self.bodyLength+1,self.y)
         tail.image = tailImage
         tail.type = 'obstacle'
 
         self.snakeTiles.append(tail)
 
         spyral.event.register("input.keyboard.down.*", self.handleKeyboard)
+	
+    def ResetValues(self,headPosition):
+        self.x = headPosition[0]
+        self.y = headPosition[1]
+        self.snakeTiles = []
+
+        head = self.level.GetTile(headPosition[0],headPosition[1])
+        head.image = headImage
+        head.type = 'obstacle'
+        self.snakeTiles.append(head)
+        
+        for i in range(self.bodyLength):
+            body = self.level.GetTile(self.x+i+1,self.y)
+            body.image = bodyImage
+            body.type = 'obstacle'
+            self.snakeTiles.append(body)
+
+        tail = self.level.GetTile(self.x+self.bodyLength+1,self.y)
+        tail.image = tailImage
+        tail.type = 'obstacle'
+
+        self.snakeTiles.append(tail)
 
     def handleKeyboard(self, key):
         if key == 276:

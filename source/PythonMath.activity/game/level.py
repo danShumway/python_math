@@ -114,6 +114,8 @@ class Level(spyral.Scene):
     def handleKeyboard(self, key):
         if unichr(key) == 'q':
             spyral.director.pop()
+	elif unichr(key) == 'r':
+	    self.restartLevel()
 
     def goToNextLevel(self):
         newLevel = Level(self.menuScene,self.sceneSize,'game/levels/level' + str(self.currentLevel + 1) + '.txt')
@@ -127,3 +129,9 @@ class Level(spyral.Scene):
         spyral.director.replace(newLevel)
         self.menuScene.theLevel = newLevel
         return
+		
+    def restartLevel(self):
+	for i in self.levelData:
+	    i.InitValues()
+
+	self.player.ResetValues( (2,self.levelWidth/2) )
