@@ -1,6 +1,7 @@
 import spyral
 import math
 import random
+import FontLoader
 
 class Menu():
 
@@ -12,6 +13,7 @@ class Menu():
         self.optionsDelegates = [] #what functions it points to.
         self.currentlySelected = 0 #what menu item we're on.
         self.sprites = [] #Our sprites.
+        self.text = [] #The text on top of our sprites.
         self.width = width
         self.height = height #width and height of the entire menu
 
@@ -27,7 +29,9 @@ class Menu():
         #add the actual sprite.  These are drawn automatically on the scene that's passed in.
         #there is no draw loop.
         option = spyral.Sprite(self.parentScene)
+        textOption = FontLoader.GuidedText(self.parentScene, "game/fonts/DejaVuSans.ttf", "Test", self.height * 1. / 8)
         self.sprites.append(option)
+        self.text.append(textOption)
 
         #quick check if you added only 1 item.
         if(len(self.options) != 1):
@@ -38,13 +42,16 @@ class Menu():
         #recalculate the position of everything on the screen.
         option.anchor = "center"
         option.x = self.width/2
+        textOption.x = self.width/2
 
         #fix positions.
         print("Length: " + str(self.height/2))
         curY = self.height/2 - ((len(self.options) - 1 )* self.sprites[0].height/2)
+
         for i in range(0, len(self.sprites)):
             print("CurY: " + str(curY))
             self.sprites[i].y = curY
+            self.text[i].y = curY
             curY = curY + self.sprites[i].height + 30
         
 #----------------------------------------------------------------------
