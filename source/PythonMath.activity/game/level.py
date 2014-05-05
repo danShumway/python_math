@@ -1,5 +1,45 @@
 import spyral
 import snake
+import pythonMath
+
+################################################################################################################
+#                                         Level text file key                                                  #
+#                                                                                                              #
+#   1 - 9: addition gate with the number being the amount added                                                #
+#                                                                                                              #
+#   p,o,i,u,y,t,l,k,j: subtraction gate                                                                        #
+#                                                                                                              #
+#   p : 1                                                                                                      #
+#   o : 2                                                                                                      #
+#   i : 3                                                                                                      #
+#   u : 4                                                                                                      #
+#   y : 5                                                                                                      #
+#   t : 6                                                                                                      #
+#   l : 7                                                                                                      #
+#   k : 8                                                                                                      #
+#   j : 9                                                                                                      #
+#                                                                                                              #
+#   # : obstacle (a bush for example)                                                                          #
+#   - : blank tile                                                                                             #
+#                                                                                                              #
+################################################################################################################
+
+subtractDict = { 'p': 1,
+                 'o': 2,
+                 'i': 3,
+                 'u': 4,
+                 'y': 5,
+                 't': 6,
+                 'l': 7,
+                 'k': 8,
+                 'j': 9 }
+
+tileBasic = spyral.Image('game/images/grassTile.png')
+tileBush = spyral.Image('game/images/bushTile.png')
+tileAdd = spyral.Image('game/images/addTile.png')
+tileSubtract = spyral.Image('game/images/subtractTile.png')
+tileGate = spyral.Image('game/images/gateTile.png')
+tileOther = spyral.Image(size=(32,32)).fill((0,0,0))
 
 class Tile(spyral.Sprite):
     def __init__(self, scene, i, j,SIZE,key):
@@ -9,48 +49,71 @@ class Tile(spyral.Sprite):
         self.anchor = 'center'
         self.type = 'empty'
 
+        self.amount = 1
         self.InitValues()
 
         self.row = i
         self.col = j
 
-        self.x = (self.row*0.97) * self.image.width
-        self.y = (self.col*0.97) * self.image.height
+        levelWidth = scene.levelWidth * self.image.width
+        levelHeight = scene.levelHeight * self.image.height
+
+        self.x = SIZE[0]/2 + ((self.row*0.96) * self.image.width) - levelWidth/2 + self.image.width
+        self.y = SIZE[1]/2 + ((self.col*0.96) * self.image.height) - levelHeight/2
 
     def InitValues(self):
-        if self.key == '#':
-             self.image = spyral.Image('game/images/grassTile.png')
+        if self.key == '-':
+             self.image = tileBasic
              self.type = 'empty'
+        elif self.key == '#':
+             self.image = tileBush
+             self.type = 'obstacle'
+        #addition gates
+        elif self.key == '1' or self.key == '2' or self.key == '3' or self.key == '4' or self.key == '5' or self.key == '6' or self.key == '7' or self.key == '8' or self.key == '9':
+             self.amount = int(self.key)
+             self.image = tileAdd
+             self.type = 'add'
+        #subtraction gates
+        elif self.key in subtractDict:
+             self.amount = subtractDict[self.key]
+             self.image = tileSubtract
+             self.type = 'subtract'
+        #go to next level gate
+        elif self.key == 'G':
+             self.image = tileGate
+             self.type = 'gate'
         else:
-             self.image = spyral.Image(size=(32,32)).fill((0,0,0))
+             self.image = tileOther
              self.type = 'obstacle'
 
 
 class Level(spyral.Scene):
-    def __init__(self,SIZE):
+    def __init__(self,menuScene,SIZE,filename):
         spyral.Scene.__init__(self, SIZE)
         self.background = spyral.Image(size=SIZE).fill((25,150,25))
 
+        self.menuScene = menuScene
         self.sceneSize = SIZE
         self.levelWidth = 20;
         self.levelHeight = 20;
-        self.levelData = self.CreateLevel(SIZE,'game/levels/basic.txt')
+
+        self.currentLevel = 1
+        
+        self.levelData = self.CreateLevel(SIZE,filename)
+
+        #create snake player object
+        self.player = snake.Snake(self, (2,self.levelWidth/2) )
 
         spyral.event.register("input.keyboard.down.*", self.handleKeyboard)
 
-        #create snake player object
-        self.player = snake.Snake(self, (5,12) )
 
-
-    #makes a blank world and returns it.
-    #Todo: load in worlds from external files.
     def CreateLevel(self, SIZE, filename = ''):
         level = []
         #create from default width and height with no filename
         if filename == '':
             for i in range(self.levelWidth):
                 for j in range(self.levelHeight):
-                    tile = Tile(self,i,j,SIZE,'#')
+                    tile = Tile(self,i,j,SIZE,'-')
                     level.append(tile)
         #create from file
         else:
@@ -62,7 +125,7 @@ class Level(spyral.Scene):
                 currentCol = 0
                 fileObject = open(filename)
                 for line in fileObject:
-                    line = line.rstrip('\n')
+                    line = line.rstrip('\n')  
                     if getWidth == True:
                         self.levelWidth = len(line)
                         getWidth = False  
@@ -81,8 +144,32 @@ class Level(spyral.Scene):
         return level
 
     def GetTile(self, row, column):
-        return self.levelData[((row-1) * self.levelWidth) + (column-1)]
+        try:
+            return self.levelData[((row-1) * self.levelWidth) + (column-1)]
+        except:
+            return None
 
     def handleKeyboard(self, key):
         if unichr(key) == 'q':
             spyral.director.pop()
+	elif unichr(key) == 'r':
+	    self.restartLevel()
+
+    def goToNextLevel(self):
+        newLevel = Level(self.menuScene,self.sceneSize,'game/levels/level' + str(self.currentLevel + 1) + '.txt')
+        newLevel.currentLevel = self.currentLevel + 1
+        for i in self.levelData:
+            i.kill()
+            del i
+        for i in self.player.snakeTiles:
+            i.kill()
+            del i
+        spyral.director.replace(newLevel)
+        self.menuScene.theLevel = newLevel
+        return
+		
+    def restartLevel(self):
+	for i in self.levelData:
+	    i.InitValues()
+
+	self.player.ResetValues( (2,self.levelWidth/2) )

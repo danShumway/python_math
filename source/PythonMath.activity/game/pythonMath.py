@@ -17,7 +17,7 @@ class PythonMathGame(spyral.Scene):
         spyral.Scene.__init__(self, SIZE)
         self.background = spyral.Image(size=SIZE).fill((0,0,0))
 
-        self.theLevel = level.Level(SIZE)
+        self.theLevel = level.Level(self,SIZE,'game/levels/level1.txt')
 
         self.mainMenu = menu.Menu(self, WIDTH, HEIGHT)
         self.mainMenu.addMenuItem('Play', self.startLevel)
