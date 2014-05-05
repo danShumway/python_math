@@ -2,6 +2,38 @@ import spyral
 import snake
 import pythonMath
 
+################################################################################################################
+#                                         Level text file key                                                  #
+#                                                                                                              #
+#   1 - 9: addition gate with the number being the amount added                                                #
+#                                                                                                              #
+#   p,o,i,u,y,t,l,k,j: subtraction gate                                                                        #
+#                                                                                                              #
+#   p : 1                                                                                                      #
+#   o : 2                                                                                                      #
+#   i : 3                                                                                                      #
+#   u : 4                                                                                                      #
+#   y : 5                                                                                                      #
+#   t : 6                                                                                                      #
+#   l : 7                                                                                                      #
+#   k : 8                                                                                                      #
+#   j : 9                                                                                                      #
+#                                                                                                              #
+#   # : obstacle (a bush for example)                                                                          #
+#   - : blank tile                                                                                             #
+#                                                                                                              #
+################################################################################################################
+
+subtractDict = { 'p': 1,
+                 'o': 2,
+                 'i': 3,
+                 'u': 4,
+                 'y': 5,
+                 't': 6,
+                 'l': 7,
+                 'k': 8,
+                 'j': 9 }
+
 tileBasic = spyral.Image('game/images/grassTile.png')
 tileBush = spyral.Image('game/images/bushTile.png')
 tileAdd = spyral.Image('game/images/addTile.png')
@@ -17,6 +49,7 @@ class Tile(spyral.Sprite):
         self.anchor = 'center'
         self.type = 'empty'
 
+        self.amount = 1
         self.InitValues()
 
         self.row = i
@@ -35,12 +68,17 @@ class Tile(spyral.Sprite):
         elif self.key == '#':
              self.image = tileBush
              self.type = 'obstacle'
-        elif self.key == 'A':
+        #addition gates
+        elif self.key == '1' or self.key == '2' or self.key == '3' or self.key == '4' or self.key == '5' or self.key == '6' or self.key == '7' or self.key == '8' or self.key == '9':
+             self.amount = int(self.key)
              self.image = tileAdd
              self.type = 'add'
-        elif self.key == 'S':
+        #subtraction gates
+        elif self.key in subtractDict:
+             self.amount = subtractDict[self.key]
              self.image = tileSubtract
              self.type = 'subtract'
+        #go to next level gate
         elif self.key == 'G':
              self.image = tileGate
              self.type = 'gate'

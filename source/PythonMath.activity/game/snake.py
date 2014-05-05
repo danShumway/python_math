@@ -94,6 +94,7 @@ class Snake(object):
     def changeTilesFromMovement(self,tile):
 
         oldType = tile.type
+        oldAmmount = tile.amount
 
         lipos = []
         li = []
@@ -114,9 +115,10 @@ class Snake(object):
         self.level.GetTile(lipos[len(lipos)-1][1]+1,lipos[len(lipos)-1][0]+1).InitValues()
 
         if oldType == 'add':
-            self.addTile()
+            for i in range(oldAmmount):
+                self.addTile()
         elif oldType == 'subtract':
-            self.subtractTile()
+            self.subtractTile(tile.amount)
         elif oldType == 'gate':
             self.level.goToNextLevel()
 
@@ -160,9 +162,10 @@ class Snake(object):
             self.snakeTiles.insert(len(self.snakeTiles)-1,newTile)
             
 
-    def subtractTile(self):
-        #make sure the snake is never smaller than 3 tiles long
-        if len(self.snakeTiles) >= 4:
-            self.snakeTiles[len(self.snakeTiles)-1].InitValues()
-            self.snakeTiles.pop()
-            self.snakeTiles[len(self.snakeTiles)-1].image = tailImage
+    def subtractTile(self, times=1):
+        for i in range(times):
+            #make sure the snake is never smaller than 3 tiles long
+            if len(self.snakeTiles) >= 4:
+                self.snakeTiles[len(self.snakeTiles)-1].InitValues()
+                self.snakeTiles.pop()
+                self.snakeTiles[len(self.snakeTiles)-1].image = tailImage
