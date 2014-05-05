@@ -57,13 +57,13 @@ class Snake(object):
         self.snakeTiles.append(tail)
 
     def handleKeyboard(self, key):
-        if key == 276:
+        if key == 276 or key == 260:
             self.moveLeft()
-        elif key == 275:
+        elif key == 275 or key == 262:
             self.moveRight()
-        elif key == 273:
+        elif key == 273 or key == 264:
             self.moveUp()
-        elif key == 274:
+        elif key == 274 or key == 258:
             self.moveDown()
 
     def moveLeft(self):
