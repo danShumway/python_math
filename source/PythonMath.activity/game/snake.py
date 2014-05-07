@@ -94,7 +94,6 @@ class Snake(object):
 
     
     def changeTilesFromMovement(self,tile):
-
         oldType = tile.type
         oldAmmount = tile.amount
 

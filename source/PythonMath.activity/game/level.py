@@ -2,28 +2,6 @@ import spyral
 import snake
 import pythonMath
 
-################################################################################################################
-#                                         Level text file key                                                  #
-#                                                                                                              #
-#   1 - 9: addition gate with the number being the amount added                                                #
-#                                                                                                              #
-#   p,o,i,u,y,t,l,k,j: subtraction gate                                                                        #
-#                                                                                                              #
-#   p : 1                                                                                                      #
-#   o : 2                                                                                                      #
-#   i : 3                                                                                                      #
-#   u : 4                                                                                                      #
-#   y : 5                                                                                                      #
-#   t : 6                                                                                                      #
-#   l : 7                                                                                                      #
-#   k : 8                                                                                                      #
-#   j : 9                                                                                                      #
-#                                                                                                              #
-#   # : obstacle (a bush for example)                                                                          #
-#   - : blank tile                                                                                             #
-#                                                                                                              #
-################################################################################################################
-
 subtractDict = { 'p': 1,
                  'o': 2,
                  'i': 3,
@@ -46,20 +24,24 @@ class Tile(spyral.Sprite):
         super(Tile,self).__init__(scene)
 
         self.key = key
+
+        self.image = tileBasic
         self.anchor = 'center'
         self.type = 'empty'
 
         self.amount = 1
-        self.InitValues()
-
+        
         self.row = i
         self.col = j
 
         levelWidth = scene.levelWidth * self.image.width
         levelHeight = scene.levelHeight * self.image.height
 
+
         self.x = SIZE[0]/2 + ((self.row*0.96) * self.image.width) - levelWidth/2 + self.image.width
         self.y = SIZE[1]/2 + ((self.col*0.96) * self.image.height) - levelHeight/2
+
+        self.InitValues()
 
     def InitValues(self):
         if self.key == '-':
@@ -70,14 +52,35 @@ class Tile(spyral.Sprite):
              self.type = 'obstacle'
         #addition gates
         elif self.key == '1' or self.key == '2' or self.key == '3' or self.key == '4' or self.key == '5' or self.key == '6' or self.key == '7' or self.key == '8' or self.key == '9':
+
+             self.textSprite = spyral.Sprite(self.parent)
+             text = spyral.Font("game/fonts/DejaVuSans.ttf", 22, (0,255,0) )
+             self.textSprite.image = text.render(self.key)
+
+             self.textSprite.x = self.x
+             self.textSprite.y = self.y + 2
+             self.textSprite.anchor = 'center'
+            
              self.amount = int(self.key)
              self.image = tileAdd
              self.type = 'add'
+
+             
         #subtraction gates
         elif self.key in subtractDict:
+
+             self.textSprite = spyral.Sprite(self.parent)
+             text = spyral.Font("game/fonts/DejaVuSans.ttf", 22, (255,0,0 ) )
+             self.textSprite.image = text.render(str(subtractDict[self.key]))
+
+             self.textSprite.x = self.x
+             self.textSprite.y = self.y + 2
+             self.textSprite.anchor = 'center'
+            
              self.amount = subtractDict[self.key]
              self.image = tileSubtract
              self.type = 'subtract'
+             
         #go to next level gate
         elif self.key == 'G':
              self.image = tileGate
@@ -152,8 +155,8 @@ class Level(spyral.Scene):
     def handleKeyboard(self, key):
         if unichr(key) == 'q':
             spyral.director.pop()
-	elif unichr(key) == 'r':
-	    self.restartLevel()
+        elif unichr(key) == 'r':
+            self.restartLevel()
 
     def goToNextLevel(self):
         newLevel = Level(self.menuScene,self.sceneSize,'game/levels/level' + str(self.currentLevel + 1) + '.txt')
@@ -167,9 +170,9 @@ class Level(spyral.Scene):
         spyral.director.replace(newLevel)
         self.menuScene.theLevel = newLevel
         return
-		
+        
     def restartLevel(self):
-	for i in self.levelData:
-	    i.InitValues()
+        for i in self.levelData:
+            i.InitValues()
 
-	self.player.ResetValues( (2,self.levelWidth/2) )
+        self.player.ResetValues( (2,self.levelWidth/2) )
