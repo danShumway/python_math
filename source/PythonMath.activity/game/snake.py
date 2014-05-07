@@ -32,7 +32,10 @@ class Snake(object):
 
         self.snakeTiles.append(tail)
 
-        spyral.event.register("input.keyboard.down.*", self.handleKeyboard, scene=level)
+        spyral.event.register("input.keyboard.down.down", self.moveDown, scene=level)
+        spyral.event.register("input.keyboard.down.up", self.moveUp, scene=level)
+        spyral.event.register("input.keyboard.down.left", self.moveLeft, scene=level)
+        spyral.event.register("input.keyboard.down.right", self.moveRight, scene=level)
 	
     def ResetValues(self,headPosition):
         self.x = headPosition[0]
@@ -66,7 +69,7 @@ class Snake(object):
         elif key == 274 or key == 258:
             self.moveDown()
 
-    def moveLeft(self):
+    def moveLeft(self, key):
         tileToInspect = self.level.GetTile(self.x,self.y - 1)
         if self.y - 1 > 0 and tileToInspect.type != 'obstacle':
             #let's check if you're moving onto an addition gate.
@@ -74,19 +77,19 @@ class Snake(object):
             self.y -= 1
             self.changeTilesFromMovement(tileToInspect);
                
-    def moveRight(self):
+    def moveRight(self, key):
         tileToInspect = self.level.GetTile(self.x,self.y + 1)
         if self.y + 1 <= self.level.levelWidth and tileToInspect.type != 'obstacle':
             self.y += 1
             self.changeTilesFromMovement(tileToInspect);
 
-    def moveUp(self):
+    def moveUp(self, key):
         tileToInspect = self.level.GetTile(self.x - 1,self.y)
         if self.x - 1 > 0 and tileToInspect.type != 'obstacle':
             self.x -= 1
             self.changeTilesFromMovement(tileToInspect);
 
-    def moveDown(self):
+    def moveDown(self, key):
         tileToInspect = self.level.GetTile(self.x + 1,self.y)
         if self.x + 1 <= self.level.levelHeight and tileToInspect.type != 'obstacle':
             self.x += 1
@@ -94,6 +97,7 @@ class Snake(object):
 
     
     def changeTilesFromMovement(self,tile):
+
         oldType = tile.type
         oldAmmount = tile.amount
 
