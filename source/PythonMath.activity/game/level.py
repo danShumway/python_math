@@ -104,7 +104,7 @@ class Level(spyral.Scene):
         #create snake player object
         self.player = snake.Snake(self, (2,self.levelWidth/2) )
 
-        spyral.event.register("input.keyboard.down.*", self.handleKeyboard)
+        spyral.event.register("input.keyboard.down.*", self.handleKeyboard, scene=self)
 
 
     def CreateLevel(self, SIZE, filename = ''):
