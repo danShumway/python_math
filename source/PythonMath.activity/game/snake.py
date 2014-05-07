@@ -19,7 +19,7 @@ class Snake(object):
         head.type = 'obstacle'
         self.snakeTiles.append(head)
 
-        self.bodyLength = random.randint(1,5)
+        self.bodyLength = random.randint(1,2)
         for i in range(self.bodyLength):
             body = self.level.GetTile(self.x+i+1,self.y)
             body.image = bodyImage
@@ -117,6 +117,7 @@ class Snake(object):
                 self.snakeTiles[i].image = li[i]
                 self.snakeTiles[i].type = 'obstacle'
 
+        #
         self.level.GetTile(lipos[len(lipos)-1][1]+1,lipos[len(lipos)-1][0]+1).InitValues()
 
         if oldType == 'add':
