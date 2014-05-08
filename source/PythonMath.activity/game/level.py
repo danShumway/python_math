@@ -2,6 +2,28 @@ import spyral
 import snake
 import pythonMath
 
+################################################################################################################
+#                                         Level text file key                                                  #
+#                                                                                                              #
+#   1 - 9: addition gate with the number being the amount added                                                #
+#                                                                                                              #
+#   p,o,i,u,y,t,l,k,j: subtraction gate                                                                        #
+#                                                                                                              #
+#   p : 1                                                                                                      #
+#   o : 2                                                                                                      #
+#   i : 3                                                                                                      #
+#   u : 4                                                                                                      #
+#   y : 5                                                                                                      #
+#   t : 6                                                                                                      #
+#   l : 7                                                                                                      #
+#   k : 8                                                                                                      #
+#   j : 9                                                                                                      #
+#                                                                                                              #
+#   # : obstacle (a bush for example)                                                                          #
+#   - : blank tile                                                                                             #
+#                                                                                                              #
+################################################################################################################
+
 subtractDict = { 'p': 1,
                  'o': 2,
                  'i': 3,
