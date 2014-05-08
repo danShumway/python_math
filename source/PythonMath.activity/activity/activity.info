@@ -1,0 +1,8 @@
+[Activity]
+name = PythonMath
+activity_version = 1.0
+host_version = 1
+service_name = pythonmath
+bundle_id = pythonmath
+icon = activity
+exec = sugar-activity activity.Activity

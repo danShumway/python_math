@@ -38,8 +38,8 @@ class Tile(spyral.Sprite):
         levelHeight = scene.levelHeight * self.image.height
 
 
-        self.x = SIZE[0]/2 + ((self.row*0.96) * self.image.width) - levelWidth/2 + self.image.width
-        self.y = SIZE[1]/2 + ((self.col*0.96) * self.image.height) - levelHeight/2
+        self.x = SIZE[0]/2 + ((self.row) * self.image.width) - levelWidth/2 + self.image.width
+        self.y = SIZE[1]/2 + ((self.col) * self.image.height) - levelHeight/2
 
         self.InitValues()
 
@@ -111,13 +111,13 @@ class Level(spyral.Scene):
 
 
     def CreateLevel(self, SIZE, filename = ''):
-        level = []
+        level = {}
         #create from default width and height with no filename
         if filename == '':
             for i in range(self.levelWidth):
                 for j in range(self.levelHeight):
                     tile = Tile(self,i,j,SIZE,'-')
-                    level.append(tile)
+                    level[ (i, j) ] = tile
         #create from file
         else:
             try:
@@ -128,13 +128,14 @@ class Level(spyral.Scene):
                 currentCol = 0
                 fileObject = open(filename)
                 for line in fileObject:
-                    line = line.rstrip('\n')  
+                    line = line.rstrip('\n')
+                    line = line.rstrip('\r')
                     if getWidth == True:
                         self.levelWidth = len(line)
                         getWidth = False  
                     for char in line:
                         tile = Tile(self,currentCol,currentRow,SIZE,char)
-                        level.append(tile)
+                        level[ (currentCol, currentRow) ] = tile
                         currentCol += 1
                         if currentCol == self.levelWidth:
                             currentCol = 0
@@ -148,7 +149,7 @@ class Level(spyral.Scene):
 
     def GetTile(self, row, column):
         try:
-            return self.levelData[((row-1) * self.levelWidth) + (column-1)]
+            return self.levelData[(column-1,row-1)]
         except:
             return None
 
@@ -159,20 +160,22 @@ class Level(spyral.Scene):
             self.restartLevel()
 
     def goToNextLevel(self):
+        spyral.event.unregister("input.keyboard.down.*", self.handleKeyboard, scene=self)
         newLevel = Level(self.menuScene,self.sceneSize,'game/levels/level' + str(self.currentLevel + 1) + '.txt')
         newLevel.currentLevel = self.currentLevel + 1
-        for i in self.levelData:
-            i.kill()
-            del i
+        for key, value in self.levelData.iteritems():
+            value.kill()
+            del value
+            self.levelData[key] = None
         for i in self.player.snakeTiles:
             i.kill()
             del i
+        self.player.snakeTiles = []
         spyral.director.replace(newLevel)
         self.menuScene.theLevel = newLevel
         return
         
     def restartLevel(self):
-        for i in self.levelData:
-            i.InitValues()
-
+        for key, value in self.levelData.iteritems():
+            value.InitValues()
         self.player.ResetValues( (2,self.levelWidth/2) )

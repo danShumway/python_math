@@ -17,7 +17,7 @@ class PythonMathGame(spyral.Scene):
         spyral.Scene.__init__(self, SIZE)
         self.background = spyral.Image(size=SIZE).fill((0,0,0))
 
-        self.theLevel = level.Level(self,SIZE,'game/levels/tinyLevel.txt')
+        self.theLevel = level.Level(self,SIZE,'game/levels/level1.txt')
 
         self.mainMenu = menu.Menu(self, WIDTH, HEIGHT)
         self.mainMenu.addMenuItem('Play', self.startLevel)
@@ -25,7 +25,6 @@ class PythonMathGame(spyral.Scene):
         self.mainMenu.addMenuItem('Quit', sys.exit)
 
         spyral.event.register("input.keyboard.down.*", self.handleKeyboard)
-        spyral.event.register("director.update", self.update)
         spyral.event.register("system.quit", sys.exit)
         
 
@@ -39,9 +38,6 @@ class PythonMathGame(spyral.Scene):
         elif unichr(key) == ' ':
             self.mainMenu.selectCurrent()
 
-    def update(self, delta):
-        pass
-    
     def startLevel(self):
         spyral.director.push(self.theLevel)
 
