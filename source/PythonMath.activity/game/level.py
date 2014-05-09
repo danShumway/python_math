@@ -1,9 +1,13 @@
 import spyral
 import snake
 import pythonMath
+import random
 
 ################################################################################################################
 #                                         Level text file key                                                  #
+#                                                                                                              #
+#   The first line in the file is the number the snake's length should be to progress through to the           #
+#   next level                                                                                                 #
 #                                                                                                              #
 #   1 - 9: addition gate with the number being the amount added                                                #
 #                                                                                                              #
@@ -123,8 +127,20 @@ class Level(spyral.Scene):
         self.levelHeight = 20;
 
         self.currentLevel = 1
+        self.goalAmount = 3
         
         self.levelData = self.CreateLevel(SIZE,filename)
+
+        #create the text on the top of the screen that informs the player the length the snake needs
+        #to be in order to progress to the next level
+        self.hudGoalText = spyral.Sprite(self.parent)
+        text = spyral.Font("game/fonts/DejaVuSans.ttf", 22, (255,255,255 ) )
+        self.hudGoalText.image = text.render("The snake needs to be " + str(self.goalAmount) + " pieces long to go to the next level!")
+
+        self.hudGoalText.x = SIZE[0]/2
+        self.hudGoalText.y = text.get_size("X").y
+        self.hudGoalText.anchor = 'center'
+        
 
         #create snake player object
         self.player = snake.Snake(self, (2,self.levelWidth/2) )
@@ -136,6 +152,7 @@ class Level(spyral.Scene):
         level = {}
         #create from default width and height with no filename
         if filename == '':
+            self.goalAmount = random.randint(3,10)
             for i in range(self.levelWidth):
                 for j in range(self.levelHeight):
                     tile = Tile(self,i,j,SIZE,'-')
@@ -149,19 +166,23 @@ class Level(spyral.Scene):
                 currentRow = 0
                 currentCol = 0
                 fileObject = open(filename)
+
                 for line in fileObject:
                     line = line.rstrip('\n')
                     line = line.rstrip('\r')
-                    if getWidth == True:
-                        self.levelWidth = len(line)
-                        getWidth = False  
-                    for char in line:
-                        tile = Tile(self,currentCol+1,currentRow+1,SIZE,char)
-                        level[ (currentCol+1, currentRow+1) ] = tile
-                        currentCol += 1
-                        if currentCol == self.levelWidth:
-                            currentCol = 0
-                            currentRow += 1
+                    if total != 0:
+                        if getWidth == True:
+                            self.levelWidth = len(line)
+                            getWidth = False  
+                        for char in line:
+                            tile = Tile(self,currentCol+1,currentRow+1,SIZE,char)
+                            level[ (currentCol+1, currentRow+1) ] = tile
+                            currentCol += 1
+                            if currentCol == self.levelWidth:
+                                currentCol = 0
+                                currentRow += 1
+                    else:
+                        self.goalAmount = int(line)
                     total += 1
                 self.levelHeight = total
                 fileObject.close()

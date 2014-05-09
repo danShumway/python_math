@@ -122,7 +122,8 @@ class Snake(object):
         elif oldType == 'subtract':
             self.subtractTile(tile.amount)
         elif oldType == 'gate':
-            self.level.goToNextLevel()
+            if self.level.goalAmount == len(self.snakeTiles):
+                self.level.goToNextLevel()
 
     def addTile(self):
         secondToLast = self.snakeTiles[len(self.snakeTiles)-2]
