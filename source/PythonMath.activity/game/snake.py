@@ -116,11 +116,11 @@ class Snake(object):
 
         for i in range(len(self.snakeTiles)):
             if i >= 1:
-                self.snakeTiles[i] = self.level.GetTile(lipos[i-1][1]+1,lipos[i-1][0]+1)
+                self.snakeTiles[i] = self.level.GetTile(lipos[i-1][1],lipos[i-1][0])
                 self.snakeTiles[i].image = li[i]
                 self.snakeTiles[i].type = 'obstacle'
 
-        self.level.GetTile(lipos[len(lipos)-1][1]+1,lipos[len(lipos)-1][0]+1).InitValues()
+        self.level.GetTile(lipos[len(lipos)-1][1],lipos[len(lipos)-1][0]).InitValues()
 
         #handle hitting a new tile.
         if oldType == 'add':
@@ -157,38 +157,12 @@ class Snake(object):
         directionX = secondToLast.col - tail.col
         directionY = secondToLast.row - tail.row
         
-        if directionY == 1:
-            self.snakeTiles[len(self.snakeTiles)-1] = self.level.GetTile(self.snakeTiles[len(self.snakeTiles)-1].col+1,self.snakeTiles[len(self.snakeTiles)-1].row)
-            self.snakeTiles[len(self.snakeTiles)-1].image = tailImage
+        self.snakeTiles[len(self.snakeTiles)-1] = self.level.GetTile(self.snakeTiles[len(self.snakeTiles)-1].col-directionX,self.snakeTiles[len(self.snakeTiles)-1].row-directionY)
+        self.snakeTiles[len(self.snakeTiles)-1].image = tailImage
 
-            newTile = self.level.GetTile(secondToLast.col+1,secondToLast.row)
-            newTile.image = bodyImage
-            self.snakeTiles.insert(len(self.snakeTiles)-1,newTile)
-
-        if directionY == -1:
-            self.snakeTiles[len(self.snakeTiles)-1] = self.level.GetTile(self.snakeTiles[len(self.snakeTiles)-1].col+1,self.snakeTiles[len(self.snakeTiles)-1].row+2)
-            self.snakeTiles[len(self.snakeTiles)-1].image = tailImage
-
-            newTile = self.level.GetTile(secondToLast.col+1,secondToLast.row+2)
-            newTile.image = bodyImage
-            self.snakeTiles.insert(len(self.snakeTiles)-1,newTile)
-
-        if directionX == -1:
-            self.snakeTiles[len(self.snakeTiles)-1] = self.level.GetTile(self.snakeTiles[len(self.snakeTiles)-1].col+2,self.snakeTiles[len(self.snakeTiles)-1].row+1)
-            self.snakeTiles[len(self.snakeTiles)-1].image = tailImage
-   
-            newTile = self.level.GetTile(secondToLast.col+2,secondToLast.row+1)
-            newTile.image = bodyImage
-            self.snakeTiles.insert(len(self.snakeTiles)-1,newTile)
-
-        if directionX == 1:
-            self.snakeTiles[len(self.snakeTiles)-1] = self.level.GetTile(self.snakeTiles[len(self.snakeTiles)-1].col,self.snakeTiles[len(self.snakeTiles)-1].row+1)
-            self.snakeTiles[len(self.snakeTiles)-1].image = tailImage
-   
-            newTile = self.level.GetTile(secondToLast.col,secondToLast.row+1)
-            newTile.image = bodyImage
-            self.snakeTiles.insert(len(self.snakeTiles)-1,newTile)
-            
+        newTile = self.level.GetTile(secondToLast.col-directionX,secondToLast.row-directionY)
+        newTile.image = bodyImage
+        self.snakeTiles.insert(len(self.snakeTiles)-1,newTile)
 
     def subtractTile(self, times=1):
         for i in range(times):
