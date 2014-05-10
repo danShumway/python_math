@@ -175,8 +175,10 @@ class Level(spyral.Scene):
                             self.levelWidth = len(line)
                             getWidth = False  
                         for char in line:
-                            tile = Tile(self,currentCol+1,currentRow+1,SIZE,char)
-                            level[ (currentCol+1, currentRow+1) ] = tile
+                            #tile = Tile(self,currentCol+1,currentRow+1,SIZE,char)
+                            #level[ (currentCol+1, currentRow+1) ] = tile
+                            tile = Tile(self, currentCol, currentRow, SIZE, char)
+                            level[ (currentCol, currentRow) ] = tile
                             currentCol += 1
                             if currentCol == self.levelWidth:
                                 currentCol = 0
@@ -192,7 +194,8 @@ class Level(spyral.Scene):
 
     def GetTile(self, row, column):
         try:
-            return self.levelData[(column,row)]
+            return self.levelData[(column-1, row-1)]
+            #return self.levelData[(column,row)]
         except:
             return None
 

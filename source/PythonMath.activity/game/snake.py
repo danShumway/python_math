@@ -127,20 +127,20 @@ class Snake(object):
             if(self.currentAddAmount == 0): #we just hit an addTile for the first time.
                 self.currentAddAmount = tile.amount
             elif(self.currentAddAmount < 0): #ooh, we came off of a subtract tile, let's subtract.
-                #self.subtractTile(tile.amount)
-                pass
+                self.subtractTile(-self.currentAddAmount)
+                print tile.amount
         elif oldType == 'subtract':  #same deal as above.
             if(self.currentAddAmount == 0):
-                self.currentAddAmount = tile.amount
+                self.currentAddAmount = -tile.amount
             elif(self.currentAddAmount > 0):
                 for i in range(self.currentAddAmount):
-                    #self.addTile()
-                    pass
+                    self.addTile()         
         else:
             self.currentAddAmount = 0
         #level end
-        if oldType == 'gate': #todo: Make this the end of the level.
-            self.level.goToNextLevel()
+        if oldType == 'gate':
+           if self.level.goalAmount == len(self.snakeTiles):
+               self.level.goToNextLevel()
                 
         #if oldType == 'add':
         #    for i in range(oldAmmount):
