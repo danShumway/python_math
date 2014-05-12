@@ -178,7 +178,12 @@ class Level(spyral.Scene):
                 for line in fileObject:
                     line = line.rstrip('\n')
                     line = line.rstrip('\r')
-                    if total != 0:
+                    if total == 0:
+                        self.goalAmount = int(line)
+                    elif total == 1:
+                        #add starting length here and remove pass when done
+                        pass
+                    else:
                         if getWidth == True:
                             self.levelWidth = len(line)
                             getWidth = False  
@@ -189,8 +194,6 @@ class Level(spyral.Scene):
                             if currentCol == self.levelWidth:
                                 currentCol = 0
                                 currentRow += 1
-                    else:
-                        self.goalAmount = int(line)
                     total += 1
                 self.levelHeight = total
                 fileObject.close()
