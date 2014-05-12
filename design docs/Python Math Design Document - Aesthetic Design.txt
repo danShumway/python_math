@@ -1,0 +1,65 @@
+﻿Python Math Design Document
+Aesthetic Design
+
+
+________________
+
+
+
+
+Index
+
+
+1.0 - General Aesthetic
+
+
+2.0 - Adder’s Design
+        2.1 - Color
+        2.2 - Segments
+
+
+3.0 - Gates
+
+
+4.0 - Level
+________________
+
+
+
+
+1.0 - General Aesthetic
+
+
+Due to the limitations of the system that we are using are, we have to strongly consider the art assets for the project. The most important elements are color, both contrast and visibility, resolution, and scalable. The XO has a fairly small screen size and as such it is required that the player be able to distinguish the player avatar from other objects on screen. It is also important to keep in mind that the target audience is children that are entering first grade. 
+
+
+2.0 - Adder’s Design
+
+
+Adder is the central avatar for the game and how the player will interact with the puzzles in the game.
+
+
+2.1 - Color
+
+
+Adder should have a fairly bright color with dark outline so he can be easily separated from the surrounding environment. Adder should have a color somewhere in the green to yellow portion of the color wheel.
+
+
+2.2 - Segments
+        Python Math is a tile based game and Adder will take up a variable number of tiles and will require being able to move in any cardinal direction other than straight back, as such it is important that each individual segment be able to stand by itself as part of the snake. As such, circular segments are the best choice as they do not need to be linked up to one another in any particular way.
+
+
+
+
+3.0 - Gates
+
+
+        Gates are split into the addition and subtraction gates. The gates should have the same design overall, but with opposing colors. Blue would be used as the color for the Addition gates and red for the subtraction gates. Gates would be conjoined so depending on which direction that Adder enters from, the desired effect operation happens. Each gate needs to display the number that is being used for the operation as well as the proper direction to enter from to have that number added or subtracted. An arrow colored to match the gates color pointing towards the gate is used to show portray this idea.
+
+
+
+
+4.0 - Level
+
+
+        Level assets are very simple objects that would be found in a garden such as bushes, creating a hedge maze of sorts. These would be mostly darker shades of green and brown. There is little required as these are mostly backdrop elements.
