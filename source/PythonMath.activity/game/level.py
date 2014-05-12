@@ -134,11 +134,12 @@ class Level(spyral.Scene):
         #create the text on the top of the screen that informs the player the length the snake needs
         #to be in order to progress to the next level
         self.hudGoalText = spyral.Sprite(self.parent)
-        text = spyral.Font("game/fonts/DejaVuSans.ttf", 22, (255,255,255 ) )
-        self.hudGoalText.image = text.render("The snake needs to be " + str(self.goalAmount) + " pieces long to go to the next level!")
+        self.hudGoalStatus = spyral.Sprite(self.parent)
+        self.text = spyral.Font("game/fonts/DejaVuSans.ttf", 22, (255,255,255 ) )
+        self.hudGoalText.image = self.text.render("The snake needs to be " + str(self.goalAmount) + " pieces long to go to the next level!")
 
         self.hudGoalText.x = SIZE[0]/2
-        self.hudGoalText.y = text.get_size("X").y
+        self.hudGoalText.y = self.text.get_size("X").y
         self.hudGoalText.anchor = 'center'
         
 
@@ -146,6 +147,12 @@ class Level(spyral.Scene):
         self.player = snake.Snake(self, (2,self.levelWidth/2) )
 
         spyral.event.register("input.keyboard.down.*", self.handleKeyboard, scene=self)
+
+
+        self.hudGoalStatus.image = self.text.render("The snake is currently " + str(self.player.bodyLength) + " pieces long!")
+        self.hudGoalStatus.x = SIZE[0]/2
+        self.hudGoalStatus.y = self.text.get_size("X").y * 2.1
+        self.hudGoalStatus.anchor = 'center'
 
 
     def CreateLevel(self, SIZE, filename = ''):

@@ -24,7 +24,7 @@ class Snake(object):
         head.type = 'obstacle'
         self.snakeTiles.append(head)
 
-        self.bodyLength = random.randint(1,2)
+        self.bodyLength = 1
         for i in range(self.bodyLength):
             body = self.level.GetTile(self.x+i+1,self.y)
             body.image = bodyImage
@@ -139,16 +139,11 @@ class Snake(object):
             self.currentAddAmount = 0
         #level end
         if oldType == 'gate':
-           if self.level.goalAmount == len(self.snakeTiles):
+           if self.level.goalAmount == len(self.snakeTiles) - 2:
                self.level.goToNextLevel()
-                
-        #if oldType == 'add':
-        #    for i in range(oldAmmount):
-        #        self.addTile()
-        #elif oldType == 'subtract':
-        #    self.subtractTile(tile.amount)
-        #elif oldType == 'gate':
-        #    self.level.goToNextLevel()
+
+        #super hacky fixing text stuff in interface, I am a terrible person.
+        self.level.hudGoalStatus.image = self.level.text.render("The snake is currently " + str(len(self.snakeTiles) - 2) + " pieces long!")
 
     def addTile(self):
         secondToLast = self.snakeTiles[len(self.snakeTiles)-2]

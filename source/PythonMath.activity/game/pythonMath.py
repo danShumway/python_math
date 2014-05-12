@@ -16,6 +16,7 @@ class PythonMathGame(spyral.Scene):
     def __init__(self, *args, **kwargs):
         spyral.Scene.__init__(self, SIZE)
         self.background = spyral.Image(size=SIZE).fill((0,0,0))
+        #self.layers = 
 
         self.theLevel = level.Level(self,SIZE,'game/levels/level1.txt')
 
