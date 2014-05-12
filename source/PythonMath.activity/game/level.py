@@ -129,6 +129,7 @@ class Level(spyral.Scene):
 
         self.currentLevel = 1
         self.goalAmount = 3
+        self.startLength = 1
         
         self.levelData = self.CreateLevel(SIZE,filename)
 
@@ -181,8 +182,7 @@ class Level(spyral.Scene):
                     if total == 0:
                         self.goalAmount = int(line)
                     elif total == 1:
-                        #add starting length here and remove pass when done
-                        pass
+                        self.startLength = int(line)
                     else:
                         if getWidth == True:
                             self.levelWidth = len(line)

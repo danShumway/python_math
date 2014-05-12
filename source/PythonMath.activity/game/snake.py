@@ -24,14 +24,14 @@ class Snake(object):
         head.type = 'obstacle'
         self.snakeTiles.append(head)
 
-        self.bodyLength = 1
-        for i in range(self.bodyLength):
+        self.bodyLength = level.startLength
+        for i in range(level.startLength):
             body = self.level.GetTile(self.x+i+1,self.y)
             body.image = bodyImage
             body.type = 'obstacle'
             self.snakeTiles.append(body)
 
-        tail = self.level.GetTile(self.x+self.bodyLength+1,self.y)
+        tail = self.level.GetTile(self.x+level.startLength+1,self.y)
         tail.image = tailImage
         tail.type = 'obstacle'
 
