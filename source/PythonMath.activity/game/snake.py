@@ -11,6 +11,7 @@ class Snake(object):
         self.x = headPosition[0]
         self.y = headPosition[1]
         self.level = level
+        self.currentAddAmount = 0
 
         #when the snake hits a gate, he sets his addstate to that gate.
         #when he hits another tile, if it's also a gate, he performs the action,
@@ -76,25 +77,26 @@ class Snake(object):
 
     def moveLeft(self, key):
         tileToInspect = self.level.GetTile(self.x,self.y - 1)
-        if self.y - 1 > 0 and tileToInspect.type != 'obstacle':
+        if self.y - 1 > 0 and tileToInspect.type != 'obstacle' and (self.currentAddAmount >= 0 or len(self.snakeTiles) - 2 - tileToInspect.amount >= 0):
             self.y -= 1
             self.changeTilesFromMovement(tileToInspect);
                
     def moveRight(self, key):
         tileToInspect = self.level.GetTile(self.x,self.y + 1)
-        if self.y + 1 <= self.level.levelWidth and tileToInspect.type != 'obstacle':
+        if self.y + 1 <= self.level.levelWidth and tileToInspect.type != 'obstacle' and (self.currentAddAmount >= 0 or len(self.snakeTiles) - 2 - tileToInspect.amount >= 0):
             self.y += 1
             self.changeTilesFromMovement(tileToInspect);
 
     def moveUp(self, key):
         tileToInspect = self.level.GetTile(self.x - 1,self.y)
-        if self.x - 1 > 0 and tileToInspect.type != 'obstacle':
+        #can't be an obstical, can't be moving onto a tile that would make you less than 0.
+        if self.x - 1 > 0 and tileToInspect.type != 'obstacle' and (self.currentAddAmount >= 0 or len(self.snakeTiles) - 2 - tileToInspect.amount >= 0):
             self.x -= 1
             self.changeTilesFromMovement(tileToInspect);
 
     def moveDown(self, key):
         tileToInspect = self.level.GetTile(self.x + 1,self.y)
-        if self.x + 1 <= self.level.levelHeight and tileToInspect.type != 'obstacle':
+        if self.x + 1 <= self.level.levelHeight and tileToInspect.type != 'obstacle' and (self.currentAddAmount >= 0 or len(self.snakeTiles) - 2 - tileToInspect.amount >= 0):
             self.x += 1
             self.changeTilesFromMovement(tileToInspect);
 
@@ -161,8 +163,8 @@ class Snake(object):
 
     def subtractTile(self, times=1):
         for i in range(times):
-            #make sure the snake is never smaller than 3 tiles long
-            if len(self.snakeTiles) >= 4:
+            #make sure the snake is never smaller than 2 tiles long
+            if len(self.snakeTiles) >= 3:
                 self.snakeTiles[len(self.snakeTiles)-1].InitValues()
                 self.snakeTiles.pop()
                 self.snakeTiles[len(self.snakeTiles)-1].image = tailImage

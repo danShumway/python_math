@@ -73,9 +73,11 @@ class Tile(spyral.Sprite):
         if self.key == '-':
              self.image = tileBasic
              self.type = 'empty'
+             self.amount = 0
         elif self.key == '#':
              self.image = tileBush
              self.type = 'obstacle'
+             self.amount = 0
         #addition gates
         elif self.key == '1' or self.key == '2' or self.key == '3' or self.key == '4' or self.key == '5' or self.key == '6' or self.key == '7' or self.key == '8' or self.key == '9':
 
