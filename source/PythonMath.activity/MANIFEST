@@ -31,6 +31,7 @@ game\levels/level5.txt
 game\levels/level6.txt
 game\levels/level7.txt
 game\levels/level8.txt
+game\levels/level9.txt
 libraries/gprof2dot.py
 libraries/__init__.py
 libraries\envoy\envoy/core.py

@@ -81,21 +81,26 @@ class Tile(spyral.Sprite):
         #addition gates
         elif self.key == '1' or self.key == '2' or self.key == '3' or self.key == '4' or self.key == '5' or self.key == '6' or self.key == '7' or self.key == '8' or self.key == '9':
 
-             self.textSprite = spyral.Sprite(self.parent)
-             text = spyral.Font("game/fonts/DejaVuSans.ttf", 22, (0,255,0) )
-             self.textSprite.image = text.render(self.key)
-
-             self.textSprite.x = self.x
-             self.textSprite.y = self.y + 2
-             self.textSprite.anchor = 'center'
             
              self.amount = int(self.key)
              self.image = tileAdd
              self.type = 'add'
 
+             self.textSprite = spyral.Sprite(self.parent)
+             text = spyral.Font("game/fonts/DejaVuSans.ttf", 22, (0,255,0) )
+
+             self.textSprite.x = self.x
+             self.textSprite.y = self.y + 2
+             self.textSprite.anchor = 'center'
+             self.textSprite.image = text.render(self.key)
+
              
         #subtraction gates
         elif self.key in subtractDict:
+
+             self.amount = subtractDict[self.key]
+             self.image = tileSubtract
+             self.type = 'subtract'
 
              self.textSprite = spyral.Sprite(self.parent)
              text = spyral.Font("game/fonts/DejaVuSans.ttf", 22, (255,0,0 ) )
@@ -104,10 +109,7 @@ class Tile(spyral.Sprite):
              self.textSprite.x = self.x
              self.textSprite.y = self.y + 2
              self.textSprite.anchor = 'center'
-            
-             self.amount = subtractDict[self.key]
-             self.image = tileSubtract
-             self.type = 'subtract'
+        
              
         #go to next level gate
         elif self.key == 'G':
